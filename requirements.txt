@@ -1,0 +1,13 @@
+fastapi==0.110.0
+uvicorn[standard]==0.29.0
+
+langchain==0.1.20
+langchain-community==0.0.38
+langchain-text-splitters==0.0.1
+
+chromadb==0.4.24
+pypdf==4.2.0
+ollama==0.2.1
+python-dotenv==1.0.1
+streamlit>=1.32.0
+requests==2.31.0

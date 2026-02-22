@@ -1,0 +1,68 @@
+---
+
+## Git & Deployment (step-by-step)
+
+Follow these steps to push the repository to GitHub and deploy a demo using Render (example). You can substitute another host (Railway, Fly, Heroku) as desired.
+
+1) Initialize git locally and make the first commit (run from project root):
+
+```bash
+git init
+git add .
+git commit -m "first commit"
+git branch -M main
+```
+
+2) Create a new repository on GitHub (via the website) named `personal-finance-using-RAG-level-1`.
+
+3) Add the remote and push:
+
+```bash
+git remote add origin https://github.com/<your-username>/personal-finance-using-RAG-level-1.git
+git push -u origin main
+```
+
+Replace `<your-username>` with your GitHub username. Alternatively use the `gh` CLI to create the repo:
+
+```bash
+gh repo create your-username/personal-finance-using-RAG-level-1 --public --source=. --remote=origin --push
+```
+
+4) Add a `.gitignore` (if you don't have one) to exclude virtual env, vectordb, and secrets. Example entries:
+
+```
+.venv/
+__pycache__/
+vectordb/
+.env
+*.sqlite3
+```
+
+5) Deploy (example using Render)
+
+- Sign up / log in to Render (https://render.com).
+- Create two services (one for backend, one for Streamlit UI):
+	- Backend (FastAPI): Connect the GitHub repo, select the `main` branch, set build command `pip install -r requirements.txt`, and start command `uvicorn app.main:app --host 0.0.0.0 --port $PORT`. Render will expose an HTTP URL.
+	- Frontend (Streamlit): Create a second web service that runs `streamlit run streamlit_app.py --server.port $PORT --server.address 0.0.0.0`. In `streamlit_app.py`, update `API_BASE` to the backend URL from Render, or set environment variable and read it from the app.
+
+Notes on env and secrets:
+- Use Render's Environment settings to set any env vars (e.g., `API_BASE`, Ollama host) and to keep secrets out of the repo.
+
+6) Alternatively: containerize and use GitHub Actions
+
+- Add a `Dockerfile` that launches both services (or use separate containers) and use GitHub Actions to build/push the image to a registry and deploy to your chosen provider. This gives a single-deployment pipeline but requires Docker.
+
+7) CI / Health checks
+
+- Add a simple GitHub Actions workflow under `.github/workflows/ci.yml` to run `pip install -r requirements.txt` and a small smoke test (import checks) on push.
+
+Quick checklist before pushing:
+
+- Ensure `requirements.txt` is accurate.
+- Add `LICENSE` to repo root (done).
+- Add `.gitignore` to ignore `vectordb/` and env files.
+- Confirm `streamlit_app.py` `API_BASE` points to the backend URL when deployed (or read from an env var).
+
+If you want, I can:
+- create a `.gitignore` and a simple `.github/workflows/ci.yml` smoke-test.
+- add a sample `Dockerfile` for containerized deployment.
