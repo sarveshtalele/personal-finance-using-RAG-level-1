@@ -1,6 +1,6 @@
 # Personal Finance RAG — Professional README
 
-Compact Retrieval-Augmented Generation (RAG) demo for financial learning. The project pairs a Streamlit front-end with a FastAPI backend that provides RAG capabilities via LangChain, Ollama (local LLM + embeddings), and Chroma for vector storage.
+Retrieval-Augmented Generation (RAG) demo for financial learning. The project pairs a Streamlit front-end with a FastAPI backend that provides RAG capabilities via LangChain, Ollama (local LLM + embeddings), and Chroma for vector storage.
 
 
 ## Key Features
