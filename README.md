@@ -1,4 +1,4 @@
-# Personal Finance RAG — Professional README
+# Personal Finance RAG 
 
 
 <p align="center">
